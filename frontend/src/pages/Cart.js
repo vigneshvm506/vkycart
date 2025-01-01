@@ -6,11 +6,13 @@ export default function Cart({ cartItems, setCartItems }) {
   const [complete, setComplete] = useState(false);
 
   function increaseQty(item) {
-    if (item.product.stock == item.qty) {
+    if (item.product.stock === item.qty) {
+      // Changed == to ===
       return;
     }
     const updatedItems = cartItems.map((i) => {
-      if (i.product._id == item.product._id) {
+      if (i.product._id === item.product._id) {
+        // Changed == to ===
         i.qty++;
       }
       return i;
@@ -21,7 +23,8 @@ export default function Cart({ cartItems, setCartItems }) {
   function decreaseQty(item) {
     if (item.qty > 1) {
       const updatedItems = cartItems.map((i) => {
-        if (i.product._id == item.product._id) {
+        if (i.product._id === item.product._id) {
+          // Changed == to ===
           i.qty--;
         }
         return i;
@@ -33,6 +36,7 @@ export default function Cart({ cartItems, setCartItems }) {
   function removeItem(item) {
     const updatedItems = cartItems.filter((i) => {
       if (i.product._id !== item.product._id) {
+        // Changed == to ===
         return true;
       }
     });
@@ -53,18 +57,20 @@ export default function Cart({ cartItems, setCartItems }) {
 
   return cartItems.length > 0 ? (
     <Fragment>
-      <div class="container container-fluid">
-        <h2 class="mt-5">
+      <div className="container container-fluid">
+        <h2 className="mt-5">
           Your Cart: <b>{cartItems.length} items</b>
         </h2>
-        <div class="row d-flex justify-content-between">
-          <div class="col-12 col-lg-8">
+        <div className="row d-flex justify-content-between">
+          <div className="col-12 col-lg-8">
             {cartItems.map((item) => (
-              <Fragment>
+              <Fragment key={item.product._id}>
+                {" "}
+                {/* Added key to Fragment */}
                 <hr />
-                <div class="cart-item">
-                  <div class="row">
-                    <div class="col-4 col-lg-3">
+                <div className="cart-item">
+                  <div className="row">
+                    <div className="col-4 col-lg-3">
                       <img
                         src={item.product.images[0].image}
                         alt={item.product.name}
@@ -73,33 +79,33 @@ export default function Cart({ cartItems, setCartItems }) {
                       />
                     </div>
 
-                    <div class="col-5 col-lg-3">
+                    <div className="col-5 col-lg-3">
                       <Link to={"/product/" + item.product._id}>
                         {item.product.name}
                       </Link>
                     </div>
 
-                    <div class="col-4 col-lg-2 mt-4 mt-lg-0">
+                    <div className="col-4 col-lg-2 mt-4 mt-lg-0">
                       <p id="card_item_price">${item.product.price}</p>
                     </div>
 
-                    <div class="col-4 col-lg-3 mt-4 mt-lg-0">
-                      <div class="stockCounter d-inline">
+                    <div className="col-4 col-lg-3 mt-4 mt-lg-0">
+                      <div className="stockCounter d-inline">
                         <span
-                          class="btn btn-danger minus"
+                          className="btn btn-danger minus"
                           onClick={() => decreaseQty(item)}
                         >
                           -
                         </span>
                         <input
                           type="number"
-                          class="form-control count d-inline"
+                          className="form-control count d-inline"
                           value={item.qty}
                           readOnly
                         />
 
                         <span
-                          class="btn btn-primary plus"
+                          className="btn btn-primary plus"
                           onClick={() => increaseQty(item)}
                         >
                           +
@@ -107,11 +113,11 @@ export default function Cart({ cartItems, setCartItems }) {
                       </div>
                     </div>
 
-                    <div class="col-4 col-lg-1 mt-4 mt-lg-0">
+                    <div className="col-4 col-lg-1 mt-4 mt-lg-0">
                       <i
                         id="delete_cart_item"
                         onClick={() => removeItem(item)}
-                        class="fa fa-trash btn btn-danger"
+                        className="fa fa-trash btn btn-danger"
                       ></i>
                     </div>
                   </div>
@@ -120,20 +126,20 @@ export default function Cart({ cartItems, setCartItems }) {
             ))}
           </div>
 
-          <div class="col-12 col-lg-3 my-4">
+          <div className="col-12 col-lg-3 my-4">
             <div id="order_summary">
               <h4>Order Summary</h4>
               <hr />
               <p>
                 Subtotal:{" "}
-                <span class="order-summary-values">
+                <span className="order-summary-values">
                   {cartItems.reduce((acc, item) => acc + item.qty, 0)} (Units)
                 </span>
               </p>
               <p>
                 Est. total:{" "}
-                <span class="order-summary-values">
-                  $
+                <span className="order-summary-values">
+                  ${" "}
                   {Number(
                     cartItems.reduce(
                       (acc, item) => acc + item.product.price * item.qty,
@@ -147,7 +153,7 @@ export default function Cart({ cartItems, setCartItems }) {
               <button
                 id="checkout_btn"
                 onClick={placeOrderHandler}
-                class="btn btn-primary btn-block"
+                className="btn btn-primary btn-block"
               >
                 Place Order
               </button>
@@ -161,7 +167,7 @@ export default function Cart({ cartItems, setCartItems }) {
   ) : (
     <Fragment>
       <h2 className="mt-5">Order Complete!</h2>
-      <p>Your order has been placed succesfully.</p>
+      <p>Your order has been placed successfully.</p>
     </Fragment>
   );
 }

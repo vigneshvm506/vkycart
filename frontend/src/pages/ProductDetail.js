@@ -11,19 +11,22 @@ export default function ProductDetail({ cartItems, setCartItems }) {
     fetch(process.env.REACT_APP_API_URL + "/product/" + id)
       .then((res) => res.json())
       .then((res) => setProduct(res.product));
-  }, []);
+  }, [id]); // Added 'id' to dependency array
 
   function addToCart() {
-    const itemExist = cartItems.find((item) => item.product._id == product._id);
+    const itemExist = cartItems.find(
+      (item) => item.product._id === product._id
+    ); // Changed == to ===
     if (!itemExist) {
       const newItem = { product, qty };
       setCartItems((state) => [...state, newItem]);
-      toast.success("Cart Item added succesfully!");
+      toast.success("Cart item added successfully!"); // Fixed typo
     }
   }
 
   function increaseQty() {
-    if (product.stock == qty) {
+    if (product.stock === qty) {
+      // Changed == to ===
       return;
     }
     setQty((state) => state + 1);
@@ -42,7 +45,7 @@ export default function ProductDetail({ cartItems, setCartItems }) {
           <div className="col-12 col-lg-5 img-fluid" id="product_image">
             <img
               src={product.images[0].image}
-              alt="sdf"
+              alt={product.name} // Changed alt text
               height="500"
               width="500"
             />
@@ -83,7 +86,7 @@ export default function ProductDetail({ cartItems, setCartItems }) {
             <button
               type="button"
               onClick={addToCart}
-              disabled={product.stock == 0}
+              disabled={product.stock === 0} // Changed == to ===
               id="cart_btn"
               className="btn btn-primary d-inline ml-4"
             >
