@@ -4,7 +4,11 @@ export default function ProductCard({ product }) {
   return (
     <div className="col-sm-12 col-md-6 col-lg-3 my-3">
       <div className="card p-3 rounded">
-        <img className="card-img-top mx-auto" src={product.images[0].image} />
+        <img
+          className="card-img-top mx-auto"
+          src={product.images[0]?.image || "/path/to/default-image.jpg"} // Fallback image if product image is missing
+          alt={product.name} // Added meaningful alt text
+        />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">
             <Link to={"/product/" + product._id}>{product.name}</Link>

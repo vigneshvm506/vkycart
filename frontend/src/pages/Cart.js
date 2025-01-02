@@ -5,44 +5,36 @@ import { toast } from "react-toastify";
 export default function Cart({ cartItems, setCartItems }) {
   const [complete, setComplete] = useState(false);
 
+  // Increase Quantity
   function increaseQty(item) {
     if (item.product.stock === item.qty) {
-      // Changed == to ===
       return;
     }
-    const updatedItems = cartItems.map((i) => {
-      if (i.product._id === item.product._id) {
-        // Changed == to ===
-        i.qty++;
-      }
-      return i;
-    });
+    const updatedItems = cartItems.map((i) =>
+      i.product._id === item.product._id ? { ...i, qty: i.qty + 1 } : i
+    );
     setCartItems(updatedItems);
   }
 
+  // Decrease Quantity
   function decreaseQty(item) {
     if (item.qty > 1) {
-      const updatedItems = cartItems.map((i) => {
-        if (i.product._id === item.product._id) {
-          // Changed == to ===
-          i.qty--;
-        }
-        return i;
-      });
+      const updatedItems = cartItems.map((i) =>
+        i.product._id === item.product._id ? { ...i, qty: i.qty - 1 } : i
+      );
       setCartItems(updatedItems);
     }
   }
 
+  // Remove Item from Cart
   function removeItem(item) {
-    const updatedItems = cartItems.filter((i) => {
-      if (i.product._id !== item.product._id) {
-        // Changed == to ===
-        return true;
-      }
-    });
+    const updatedItems = cartItems.filter(
+      (i) => i.product._id !== item.product._id
+    );
     setCartItems(updatedItems);
   }
 
+  // Place Order Handler
   function placeOrderHandler() {
     fetch(process.env.REACT_APP_API_URL + "/order", {
       method: "POST",
@@ -65,8 +57,6 @@ export default function Cart({ cartItems, setCartItems }) {
           <div className="col-12 col-lg-8">
             {cartItems.map((item) => (
               <Fragment key={item.product._id}>
-                {" "}
-                {/* Added key to Fragment */}
                 <hr />
                 <div className="cart-item">
                   <div className="row">

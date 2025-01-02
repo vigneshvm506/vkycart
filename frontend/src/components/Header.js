@@ -8,7 +8,7 @@ export default function Header({ cartItems }) {
         <div className="navbar-brand">
           <Link to="/">
             {" "}
-            <img width="150px" src="/images/logo.png" alt="Product image" />
+            <img width="150px" src="/images/logo.png" alt="Logo" />
           </Link>
         </div>
       </div>
